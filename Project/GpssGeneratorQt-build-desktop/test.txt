@@ -1,0 +1,40 @@
+**************************************************
+*Declarations
+**************************************************
+b4			STORAGE 	2
+b5			STORAGE 	3
+
+**************************************************
+
+**************************************************
+*Thread 1
+**************************************************
+			GENERATE 	(exponential(8,10.000,0.000))
+L_b1_1			queue		net
+			TRANSFER 	1.0,,L_b3_1
+L_b2_1			depart		net
+			TERMINATE 	1
+L_b3_1			queue		w_b3
+			queue		_b3
+			SEIZE 		_b3
+			depart		w_b3
+			ADVANCE 	(exponential(56,5.000,0.000))
+			RELEASE 	_b3
+			depart		_b3
+			TRANSFER 	1.0,,L_b4_1
+L_b4_1			queue		w_b4
+			queue		_b4
+			ENTER 		_b4
+			depart		w_b4
+			ADVANCE 	(uniform(26,5.000,9.000))
+			LEAVE 		_b4
+			depart		_b4
+			TRANSFER 	1.0,,L_b5_1
+L_b5_1			queue		w_b5
+			queue		_b5
+			ENTER 		_b5
+			depart		w_b5
+			ADVANCE 	(exponential(81,6.000,0.000))
+			LEAVE 		_b5
+			depart		_b5
+			TRANSFER 	1.0,,L_b2_1

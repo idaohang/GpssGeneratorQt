@@ -1,0 +1,63 @@
+**************************************************
+*Declarations
+**************************************************
+
+**************************************************
+
+**************************************************
+*Thread 1
+**************************************************
+			GENERATE 	(uniform(35,0.000,10.000))
+L_b1_1			queue		net
+			queue		net_1
+			TRANSFER 	1.0,,L_b3_1
+L_b2_1			depart		net
+			depart		net_1
+			TERMINATE 	1
+L_b3_1			queue		w_b3
+			queue		b3
+			queue		w_b3_1
+			queue		b3_1
+			SEIZE 		b3
+			depart		w_b3
+			depart		w_b3_1
+			ADVANCE 	(exponential(62,0.000,10.000))
+			RELEASE 	b3
+			depart		b3
+			depart		b3_1
+			TRANSFER 	1.0,,L_b4_1
+L_b4_1			queue		w_b4
+			queue		b4
+			queue		w_b4_1
+			queue		b4_1
+			SEIZE 		b4
+			depart		w_b4
+			depart		w_b4_1
+			ADVANCE 	(exponential(21,0.000,5.000))
+			RELEASE 	b4
+			depart		b4
+			depart		b4_1
+			TRANSFER 	1.0,,L_b2_1
+
+**************************************************
+*Thread 3
+**************************************************
+			GENERATE 	(exponential(38,0.000,15.000))
+L_b1_3			queue		net
+			queue		net_3
+			TRANSFER 	1.0,,L_b3_3
+L_b2_3			depart		net
+			depart		net_3
+			TERMINATE 	1
+L_b3_3			queue		w_b3
+			queue		b3
+			queue		w_b3_3
+			queue		b3_3
+			SEIZE 		b3
+			depart		w_b3
+			depart		w_b3_3
+			ADVANCE 	(uniform(58,0.000,5.000))
+			RELEASE 	b3
+			depart		b3
+			depart		b3_3
+			TRANSFER 	1.0,,L_b2_3

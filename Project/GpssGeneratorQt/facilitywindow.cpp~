@@ -1,0 +1,103 @@
+#include "facilitywindow.h"
+#include <QLabel>
+#include <QComboBox>
+#include <QMessageBox>
+#include <QCheckBox>
+
+namespace GeneratorGpss
+{
+
+FacilityWindow::FacilityWindow(int id, NetworkDescriptor *netDesc, QWidget *parent) : AbstractNavigatableWindow(parent)
+{
+    this->id=id;
+    this->netDescriptor=netDesc;
+    chanelsLabel.setText(trUtf8("Количество каналов: "));
+    chanelLayout.addWidget(&chanelsLabel);
+    chanelLayout.addWidget(&chanels);
+    chanelLayout.addStretch(1);
+    mainLayout.addLayout(&chanelLayout);
+
+    for(int i=0;i<1;i++)
+    {
+        facilityThreadParams.push_back(new FacilityThreadParams);
+        threadTabs.addTab(facilityThreadParams.back(),trUtf8("Поток №%1").arg(i));
+    }
+    mainLayout.addWidget(&threadTabs);
+
+    addNavigation();
+    this->setLayout(&mainLayout);
+}
+
+int FacilityWindow::getId()
+{
+    return id;
+}
+
+void FacilityWindow::updateDescriptor()
+{
+}
+
+void FacilityWindow::updateInterface()
+{
+}
+
+FacilityWindow::~FacilityWindow()
+{
+    for(int i=0;i<facilityThreadParams.size();i++)
+    {
+        delete facilityThreadParams[i];
+    }
+}
+
+FacilityThreadParams::FacilityThreadParams(QWidget *parent):QWidget(parent)
+{
+    usingInThread.setText(trUtf8("Используется в потоке"));
+    usingInThread.setChecked(false);
+    connect(&usingInThread,SIGNAL(clicked(bool)),this,SLOT(usingInThreadChecked(bool)));
+    mainLayout.addWidget(&usingInThread);
+
+    funcType.setDisabled(true);
+    funcTypeLbl.setText(trUtf8("Функция обработки: "));
+    funcType.addItem(trUtf8("Экспоненциальное"));
+    funcType.addItem(trUtf8("Равномерное"));
+    funcType.addItem(trUtf8("Треугольное"));
+    param1.setDisabled(true);
+    param2.setDisabled(true);
+    param1Lbl.setText(tr("param1: "));
+    param2Lbl.setText(tr("param2: "));
+
+    funcLayout.addWidget(&funcTypeLbl);
+    funcLayout.addWidget(&funcType);
+    funcLayout.addWidget(&param1Lbl);
+    funcLayout.addWidget(&param1);
+    funcLayout.addWidget(&param2Lbl);
+    funcLayout.addWidget(&param2);
+
+    mainLayout.addLayout(&funcLayout);
+
+    addStatisticNode.setDisabled(true);
+    addStatisticNode.setText(trUtf8("Собирать статистику для всего узла"));
+    addStatisticNode.setChecked(true);
+    mainLayout.addWidget(&addStatisticNode);
+
+    addStatisticQueue.setDisabled(true);
+    addStatisticQueue.setText(trUtf8("Собирать статистику для накопителя узла"));
+    addStatisticQueue.setChecked(true);
+    mainLayout.addWidget(&addStatisticQueue);
+
+    mainLayout.addStretch(1);
+    this->setLayout(&mainLayout);
+}
+
+void FacilityThreadParams::usingInThreadChecked(bool checked)
+{
+    funcType.setDisabled(!checked);
+    param1.setDisabled(!checked);
+    param2.setDisabled(!checked);
+    param3.setDisabled(!checked);
+    addStatisticNode.setDisabled(!checked);
+    addStatisticQueue.setDisabled(!checked);
+}
+
+}
+

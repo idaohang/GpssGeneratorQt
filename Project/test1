@@ -1,0 +1,71 @@
+**************************************************
+*Declarations
+**************************************************
+b3			STORAGE 	2
+
+**************************************************
+
+**************************************************
+*Thread 1
+**************************************************
+			GENERATE 	(exponential(92,15.000,0.000))
+L_b1_1			queue		Qnet
+			TRANSFER 	1.0,,L_b3_1
+L_b2_1			depart		Qnet
+			TERMINATE 	1
+L_b3_1			queue		Qw_b3
+			queue		Qu_b3
+			queue		Qw_b3_1
+			queue		Qu_b3_1
+			ENTER 		b3
+			depart		Qw_b3
+			depart		Qw_b3_1
+			ADVANCE 	(exponential(2,5.000,0.000))
+			LEAVE 		b3
+			depart		Qu_b3
+			depart		Qu_b3_1
+			TRANSFER 	1.0,,L_b4_1
+L_b4_1			queue		Qu_b4
+			queue		Qw_b4_1
+			SEIZE 		b4
+			depart		Qw_b4_1
+			ADVANCE 	(exponential(83,4.000,0.000))
+			RELEASE 	b4
+			depart		Qu_b4
+			TRANSFER 	1.0,,L_b5_1
+L_b5_1			TRANSFER 	1.000,,L_b2_1
+
+**************************************************
+*Thread 2
+**************************************************
+			GENERATE 	(exponential(35,10.000,0.000))
+L_b1_2			queue		Qnet
+			queue		Qnet_2
+			TRANSFER 	1.0,,L_b5_2
+L_b2_2			depart		Qnet
+			depart		Qnet_2
+			TERMINATE 	1
+L_b3_2			queue		Qw_b3
+			queue		Qu_b3
+			queue		Qw_b3_2
+			queue		Qu_b3_2
+			ENTER 		b3
+			depart		Qw_b3
+			depart		Qw_b3_2
+			ADVANCE 	(exponential(93,3.000,0.000))
+			LEAVE 		b3
+			depart		Qu_b3
+			depart		Qu_b3_2
+			TRANSFER 	1.0,,L_b2_2
+L_b4_2			queue		Qu_b4
+			queue		Qw_b4_2
+			queue		Qu_b4_2
+			SEIZE 		b4
+			depart		Qw_b4_2
+			ADVANCE 	(exponential(48,6.000,0.000))
+			RELEASE 	b4
+			depart		Qu_b4
+			depart		Qu_b4_2
+			TRANSFER 	1.0,,L_b2_2
+L_b5_2			TRANSFER 	0.400,,L_b3_2
+			TRANSFER 	1.000,,L_b4_2
