@@ -11,7 +11,7 @@ TransferMatrixWindow::TransferMatrixWindow(NetworkDescriptor *netDesc,QWidget *p
     for(int i=0;i<pThreads->size();i++)
     {
         threadMatrixes.push_back(new ThreadMatrix((*pThreads)[i].getId(),pNodes));
-        threadTabs.addTab(threadMatrixes.back(),trUtf8("Поток №%1").arg((*pThreads)[i].getId()));
+        threadTabs.addTab(threadMatrixes.back(),trUtf8("Thread №%1").arg((*pThreads)[i].getId()));
     }
 
     mainLayout.addWidget(&threadTabs);
@@ -34,7 +34,7 @@ void TransferMatrixWindow::updateInterface()
 {
     vector<ThreadDescriptor> *pThreads=netDescriptor->getThreads();
     vector<NodeDescriptor> *pNodes=netDescriptor->getNodes();
-    //добавление отсутствующих потоков
+    //adding new threads
     for(int i=0;i<pThreads->size();i++)
     {
         bool found=false;
@@ -49,11 +49,11 @@ void TransferMatrixWindow::updateInterface()
         if(!found)
         {
             threadMatrixes.push_back(new ThreadMatrix((*pThreads)[i].getId(),pNodes));
-            threadTabs.addTab(threadMatrixes.back(),trUtf8("Поток №%1").arg((*pThreads)[i].getId()));
+            threadTabs.addTab(threadMatrixes.back(),trUtf8("Thread №%1").arg((*pThreads)[i].getId()));
         }
     }
 
-    //удаление отсутствующих потоков
+    //Deleting old threads
     bool wereChanges=true;
     while(wereChanges)
     {
@@ -79,7 +79,7 @@ void TransferMatrixWindow::updateInterface()
         }
     }
 
-    //добавление недостающих узлов
+    //adding new nodes
     QTableWidget *curMatrix;
     for(int t=0;t<threadMatrixes.size();t++)
     {
@@ -124,7 +124,7 @@ void TransferMatrixWindow::updateInterface()
         }
     }
 
-    //удаление отсутствующих потоков
+    //deleting new nodes
     wereChanges=true;
     while(wereChanges)
     {
@@ -170,7 +170,7 @@ ThreadMatrix::ThreadMatrix(int threadId, vector<NodeDescriptor> *pNodes, QWidget
 {
     int nodes=pNodes->size();
     id=threadId;
-    matrixLbl.setText(trUtf8("Матрица переходов:"));
+    matrixLbl.setText(trUtf8("Matrix of transfer:"));
     mainLayout.addWidget(&matrixLbl);
 
     matrix.hasMouseTracking();

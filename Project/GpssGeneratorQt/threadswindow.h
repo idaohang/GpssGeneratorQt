@@ -22,13 +22,12 @@ namespace GeneratorGpss
 class NetworkDescriptor;
 class ThreadWidget;
 
-//окно, содержащее набор потоков с возможностью добавлять/удалять потоки и переходить к следующему шагу
 class ThreadsWindow : public AbstractNavigatableWindow
 {
     Q_OBJECT
 
 private:
-    //порядок описания полей важен!
+    //order of fields definition may be important!
     QPushButton addThreadBtn;
     QFrame threadsFrame;
     QVBoxLayout threadsFrameLayout;
@@ -53,7 +52,6 @@ public slots:
     void deleteThreadClick();
 };
 
-//содержит элементы управления для задания параметров одного потока
 class ThreadWidget : public QWidget
 {
     Q_OBJECT

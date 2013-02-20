@@ -19,7 +19,7 @@ class AbstractNavigatableWindow : public QWidget
     Q_OBJECT
 
 protected:
-    //порядок описания полей важен!
+    //order of fields definition may be important!
     NetworkDescriptor *netDescriptor;
     QVBoxLayout mainLayout;
 

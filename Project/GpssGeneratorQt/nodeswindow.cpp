@@ -10,10 +10,10 @@ NodesWindow::NodesWindow(NetworkDescriptor *netDesc,QWidget *parent):AbstractNav
 {
     netDescriptor=netDesc;
 
-    nodesLbl.setText(trUtf8("Состав узлов:"));
+    nodesLbl.setText(trUtf8("Nodes of the model:"));
     mainLayout.addWidget(&nodesLbl);
 
-    //добавляем источник, приемник и одно устройство
+    //adding generator, terminator and one facility by default
     nodesFrameLayout.addWidget(createNewNodeWidget());
     nodeWidgets.back()->getDeleteButton()->hide();
 
@@ -31,7 +31,7 @@ NodesWindow::NodesWindow(NetworkDescriptor *netDesc,QWidget *parent):AbstractNav
 
     mainLayout.addStretch(1);
 
-    addNodeBtn.setText(trUtf8("Добавить узел"));
+    addNodeBtn.setText(trUtf8("Add node"));
     mainLayout.addWidget(&addNodeBtn,0,Qt::AlignRight);
     addNavigation();
     this->setLayout(&mainLayout);
@@ -41,7 +41,6 @@ NodesWindow::NodesWindow(NetworkDescriptor *netDesc,QWidget *parent):AbstractNav
 
 void NodesWindow::updateDescriptor()
 {
-    //определение типа узлов
     NodeTypeEnum curNodeType;
     int curId;
     vector<NodeDescriptor> *pNodes=netDescriptor->getNodes();
@@ -97,12 +96,12 @@ void NodesWindow::deleteNodeClick()
     QPushButton *senderBtn=qobject_cast<QPushButton*>(sender());
     for(int i=0;i<nodeWidgets.size();i++)
     {
-        //ищем узел, которому соответствует кнопка
+        //selection of nodeWidget, that corespondes to button
         if(nodeWidgets[i]->getDeleteButton()==senderBtn)
         {
             NodeWidget *tmp=nodeWidgets[i];
 
-            //удаление узла из описателя сети
+            //deleting node from model
             vector<NodeDescriptor> *pNodes=netDescriptor->getNodes();
             for(int j=0;j<pNodes->size();j++)
             {
@@ -127,9 +126,9 @@ void NodesWindow::deleteNodeClick()
 NodeWidget::NodeWidget(int id,QWidget *parent):QWidget(parent)
 {
     this->id=id;
-    nodeName.setText(trUtf8("Узел b%1").arg(id));
+    nodeName.setText(trUtf8("Node b%1").arg(id));
 
-    nodeTypeLbl.setText(trUtf8("Тип узла: "));
+    nodeTypeLbl.setText(trUtf8("Node type: "));
 
     vector<NodeTypeEnum> nodeTypes;
     nodeTypes.push_back(FACILITY);
@@ -142,7 +141,7 @@ NodeWidget::NodeWidget(int id,QWidget *parent):QWidget(parent)
     mainLayout.addWidget(&nodeType);
     mainLayout.addStretch(1);
 
-    deleteButton.setText(trUtf8("Удалить"));
+    deleteButton.setText(trUtf8("Delete"));
     mainLayout.addWidget(&deleteButton,0,Qt::AlignRight);
     this->setLayout(&mainLayout);
 }
@@ -161,19 +160,19 @@ void NodeWidget::setPossibleNodeTypes(vector<NodeTypeEnum> &nodeTypes)
         switch(nodeTypes[i])
         {
         case FACILITY:
-            nodeTypeString=trUtf8("Устройство");
+            nodeTypeString=trUtf8("Facility");
             break;
         case GENERATOR:
-            nodeTypeString=trUtf8("Источник");
+            nodeTypeString=trUtf8("Generator");
             break;
         case TERMINATOR:
-            nodeTypeString=trUtf8("Приемник");
+            nodeTypeString=trUtf8("Terminator");
             break;
         case TRANSFER:
-            nodeTypeString=trUtf8("Маршрутный узел");
+            nodeTypeString=trUtf8("Transfer");
             break;
         case STATISTIC:
-            nodeTypeString=trUtf8("Узел для сбора статистики");
+            nodeTypeString=trUtf8("Statistic");
             break;
         }
         nodeType.addItem(nodeTypeString,QVariant::fromValue((int)nodeTypes[i]));

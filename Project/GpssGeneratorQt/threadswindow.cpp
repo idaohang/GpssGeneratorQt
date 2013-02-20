@@ -9,30 +9,29 @@ namespace  GeneratorGpss
 ThreadsWindow::ThreadsWindow(NetworkDescriptor *netDesc,QWidget *parent):AbstractNavigatableWindow(parent)
 {
     netDescriptor=netDesc;
-    netTypeLbl.setText(trUtf8("Выберите тип сети: "));
-    netType.addItem(trUtf8("Разомкнутая"));
-    netType.addItem(trUtf8("Замкнутая"));
-    netType.addItem(trUtf8("Смешанная"));
+    netTypeLbl.setText(trUtf8("Choose model type: "));
+    netType.addItem(trUtf8("Open"));
+    netType.addItem(trUtf8("Closed"));
+    netType.addItem(trUtf8("Hybrid"));
     netTypeLayout.addWidget(&netTypeLbl);
     netTypeLayout.addWidget(&netType,1,Qt::AlignLeft);
     mainLayout.addLayout(&netTypeLayout);
 
-    threadLbl.setText(trUtf8("Описание потоков:"));
+    threadLbl.setText(trUtf8("Description of threads:"));
     threadsFrameLayout.addWidget(&threadLbl);
-    threadsFrameLayout.addWidget(createNewThreadWidget());        //один поток по умолчанию
+    //one thread by default
+    threadsFrameLayout.addWidget(createNewThreadWidget());
     threadsFrame.setLayout(&threadsFrameLayout);
     mainLayout.addWidget(&threadsFrame);
 
     mainLayout.addStretch(1);
 
-    //кнопка добавления потоков
-    addThreadBtn.setText(trUtf8("Добавить поток"));
+    addThreadBtn.setText(trUtf8("Add thread"));
     mainLayout.addWidget(&addThreadBtn,0,Qt::AlignRight);
 
     addNavigation(NAVIGATE_NEXT);
     this->setLayout(&mainLayout);
 
-    //установка обработчиков для кнопок
     connect(&addThreadBtn,SIGNAL(clicked()),this,SLOT(addThreadClick()));
 }
 
@@ -97,11 +96,11 @@ void ThreadsWindow::deleteThreadClick()
     QPushButton *senderBtn=qobject_cast<QPushButton*>(sender());
     for(int i=0;i<threadWidgets.size();i++)
     {
-        //ищем поток, которому соответствует кнопка
+        //selection of thread, that is correspond to button
         if(threadWidgets[i]->getDeleteButton()==senderBtn)
         {
             ThreadWidget *tmp=threadWidgets[i];
-            //удаление потока из описателя сети
+            //deleting thread from the model
             vector<ThreadDescriptor> *pThreads=netDescriptor->getThreads();
             for(int j=0;j<pThreads->size();j++)
             {
@@ -112,9 +111,9 @@ void ThreadsWindow::deleteThreadClick()
                 }
             }
 
-            threadsFrameLayout.removeWidget(tmp);             //удалить из интерфейса
-            threadWidgets.erase(threadWidgets.begin()+i);   //удалить из списка
-            delete tmp;                                     //освободить память
+            threadsFrameLayout.removeWidget(tmp);
+            threadWidgets.erase(threadWidgets.begin()+i);
+            delete tmp;
             break;
         }
     }
@@ -124,23 +123,23 @@ void ThreadsWindow::deleteThreadClick()
 ThreadWidget::ThreadWidget(int id,QWidget *parent):QWidget(parent)
 {
     this->id=id;
-    threadType.addItem(trUtf8("Разомкнутый"), QVariant::fromValue((int)OPEN));
-    threadType.addItem(trUtf8("Замкнутый"),QVariant::fromValue((int)CLOSED));
+    threadType.addItem(trUtf8("Open"), QVariant::fromValue((int)OPEN));
+    threadType.addItem(trUtf8("Closed"),QVariant::fromValue((int)CLOSED));
 
-    threadFunc.addItem(trUtf8("Экспоненциальный"),QVariant::fromValue((int)EXPONENTIAL));
-    threadFunc.addItem(trUtf8("Равномерный"),QVariant::fromValue((int)UNIFORM));
-    threadFunc.addItem(trUtf8("Треугольный"),QVariant::fromValue((int)TRIANGLE));
+    threadFunc.addItem(trUtf8("Exponential"),QVariant::fromValue((int)EXPONENTIAL));
+    threadFunc.addItem(trUtf8("Uniform"),QVariant::fromValue((int)UNIFORM));
+    threadFunc.addItem(trUtf8("Triangular"),QVariant::fromValue((int)TRIANGLE));
 
-    priorityType.addItem(trUtf8("Без приоритета"));
-    priorityType.addItem(trUtf8("Относительный"));
-    priorityType.addItem(trUtf8("Абсолютный"));
+    priorityType.addItem(trUtf8("Without priority"));
+    priorityType.addItem(trUtf8("Relative"));
+    priorityType.addItem(trUtf8("Absolute"));
 
-    threadTypeLbl.setText(trUtf8("Тип потока: "));
-    threadFuncLbl.setText(trUtf8("Закон генерации: "));
-    param1Lbl.setText(trUtf8("Интенсивность: "));
-    param2Lbl.setText(trUtf8("Смещение: "));
-    priorityTypeLbl.setText(trUtf8("Тип приоритета: "));
-    priorityValueLbl.setText(trUtf8("Значение приоритета: "));
+    threadTypeLbl.setText(trUtf8("Thread type: "));
+    threadFuncLbl.setText(trUtf8("Destribution function for generation: "));
+    param1Lbl.setText(trUtf8("Scale: "));
+    param2Lbl.setText(trUtf8("Locate: "));
+    priorityTypeLbl.setText(trUtf8("Priority type: "));
+    priorityValueLbl.setText(trUtf8("Priority value: "));
 
     threadTypeLayout.addWidget(&threadTypeLbl);
     threadTypeLayout.addWidget(&threadType);
@@ -171,7 +170,7 @@ ThreadWidget::ThreadWidget(int id,QWidget *parent):QWidget(parent)
     priorityValueLbl.hide();
     priorityValue.hide();
 
-    deleteButton.setText(trUtf8("Удалить"));
+    deleteButton.setText(trUtf8("Delete"));
     mainLayout.addStretch(1);
     mainLayout.addWidget(&deleteButton,0,Qt::AlignRight);
 
@@ -199,11 +198,11 @@ void ThreadWidget::typeChanged(int i)
         threadFuncLbl.show();
         threadFunc.setCurrentIndex(0);
         threadFunc.show();
-        param1Lbl.setText(trUtf8("Интенсивность: "));
+        param1Lbl.setText(trUtf8("Scale: "));
         param1Lbl.show();
         param1.setText("0");
         param1.show();
-        param2Lbl.setText(trUtf8("Смещение: "));
+        param2Lbl.setText(trUtf8("Locate: "));
         param2Lbl.show();
         param2.show();
         param2.setText("0");
@@ -215,7 +214,7 @@ void ThreadWidget::typeChanged(int i)
         param3.hide();
         param2Lbl.hide();
         param3Lbl.hide();
-        param1Lbl.setText(trUtf8("Количество заявок: "));
+        param1Lbl.setText(trUtf8("Amount of requests: "));
         param1.setText("0");
         break;
     }
@@ -226,37 +225,37 @@ void ThreadWidget::funcChanged(int i)
 
     switch(i)
     {
-    //равномерное
+    //uniform
     case 1:
-        param1Lbl.setText(trUtf8("Минимум: "));
+        param1Lbl.setText(trUtf8("Minimum: "));
         param1.setText("0");
-        param2Lbl.setText(trUtf8("Максимум: "));
+        param2Lbl.setText(trUtf8("Maximum: "));
         param2Lbl.show();
         param2.setText("0");
         param2.show();
         param3Lbl.hide();
         param3.hide();
         break;
-        //экспоненциальное
+        //exponential
     case 0:
-        param1Lbl.setText(trUtf8("Лямбда: "));
+        param1Lbl.setText(trUtf8("Scale: "));
         param1.setText("0");
-        param2Lbl.setText(trUtf8("Смещение: "));
+        param2Lbl.setText(trUtf8("Locate: "));
         param2Lbl.show();
         param2.setText("0");
         param2.show();
         param3Lbl.hide();
         param3.hide();
         break;
-        //треугольное
+        //triangular
     case 2:
-        param1Lbl.setText(trUtf8("Минимум: "));
+        param1Lbl.setText(trUtf8("Minimum: "));
         param1.setText("");
-        param2Lbl.setText(trUtf8("Максимум: "));
+        param2Lbl.setText(trUtf8("Maximum: "));
         param2Lbl.show();
         param2.setText("0");
         param2.show();
-        param3Lbl.setText(trUtf8("Вершина: "));
+        param3Lbl.setText(trUtf8("Mode: "));
         param3Lbl.show();
         param3.setText("0");
         param3.show();

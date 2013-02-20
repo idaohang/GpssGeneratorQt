@@ -66,5 +66,5 @@ HEADERS  += mainwindow.h \
 FORMS    +=
 
 
-TRANSLATIONS =  GeneratorGpssQt_en.ts \
-                GeneratorGpssQt_ru.ts
+TRANSLATIONS =  GpssGeneratorQt_en.ts \
+                GpssGeneratorQt_ru.ts

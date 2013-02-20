@@ -9,19 +9,19 @@ FacilityWindow::FacilityWindow(int id, NetworkDescriptor *netDesc, QWidget *pare
     this->id=id;
     this->netDescriptor=netDesc;
 
-    facilityName.setText(trUtf8("Устройство b%1").arg(id));
+    facilityName.setText(trUtf8("Facility b%1").arg(id));
     mainLayout.addWidget(&facilityName);
 
-    chanelsLabel.setText(trUtf8("Количество каналов: "));
+    chanelsLabel.setText(trUtf8("Amount of chanels: "));
     chanelLayout.addWidget(&chanelsLabel);
     chanelLayout.addWidget(&chanels);
     chanelLayout.addStretch(1);
     mainLayout.addLayout(&chanelLayout);
 
-    memoryTypeLbl.setText(trUtf8("Тип накопителя: "));
-    memoryType.addItem(trUtf8("Бесконечный"));
-    memoryType.addItem(trUtf8("Ограниченный"));
-    memoryValueLbl.setText(trUtf8("Объем накопителя: "));
+    memoryTypeLbl.setText(trUtf8("Storage type: "));
+    memoryType.addItem(trUtf8("Infinite"));
+    memoryType.addItem(trUtf8("Limited"));
+    memoryValueLbl.setText(trUtf8("Storage size: "));
     memoryLayout.addWidget(&memoryTypeLbl);
     memoryLayout.addWidget(&memoryType);
     memoryLayout.addWidget(&memoryValueLbl);
@@ -32,9 +32,9 @@ FacilityWindow::FacilityWindow(int id, NetworkDescriptor *netDesc, QWidget *pare
     mainLayout.addLayout(&memoryLayout);
     connect(&memoryType,SIGNAL(currentIndexChanged(int)),this,SLOT(memoryTypeChanged(int)));
 
-    addStatisticNodeAllThreads.setText(trUtf8("Собирать статистику для всего узла (для всех потоков)"));
+    addStatisticNodeAllThreads.setText(trUtf8("Take statistic for whole node (general for all threads)"));
     addStatisticNodeAllThreads.setChecked(true);
-    addStatisticQueueAllThreads.setText(trUtf8("Собирать статистику для накопителя узла (для всех потоков)"));
+    addStatisticQueueAllThreads.setText(trUtf8("Take statistic for storage (general for all threads)"));
     addStatisticQueueAllThreads.setChecked(true);
     statisticAllThreadsLayout.addWidget(&addStatisticNodeAllThreads);
     statisticAllThreadsLayout.addWidget(&addStatisticQueueAllThreads);
@@ -44,7 +44,7 @@ FacilityWindow::FacilityWindow(int id, NetworkDescriptor *netDesc, QWidget *pare
     for(int i=0;i<pThreads->size();i++)
     {
         facilityThreadParams.push_back(new FacilityThreadParams((*pThreads)[i].getId()));
-        threadTabs.addTab(facilityThreadParams.back(),trUtf8("Поток №%1").arg((*pThreads)[i].getId()));
+        threadTabs.addTab(facilityThreadParams.back(),trUtf8("Thread №%1").arg((*pThreads)[i].getId()));
     }
     mainLayout.addWidget(&threadTabs);
 
@@ -101,7 +101,7 @@ void FacilityWindow::updateInterface()
 {
     vector<ThreadDescriptor> *pThreads=netDescriptor->getThreads();
 
-    //добавляемм табы для новых потоков
+    //adding tabs for new threads
     for(int i=0;i<pThreads->size();i++)
     {
         bool found=false;
@@ -116,7 +116,7 @@ void FacilityWindow::updateInterface()
         if(!found)
         {
             facilityThreadParams.push_back(new FacilityThreadParams((*pThreads)[i].getId()));
-            threadTabs.addTab(facilityThreadParams.back(),trUtf8("Поток №%1").arg((*pThreads)[i].getId()));
+            threadTabs.addTab(facilityThreadParams.back(),trUtf8("Thread №%1").arg((*pThreads)[i].getId()));
         }
     }
 
@@ -157,7 +157,7 @@ FacilityWindow::~FacilityWindow()
 FacilityThreadParams::FacilityThreadParams(int id, QWidget *parent):QWidget(parent)
 {
     this->id=id;
-    usingInThread.setText(trUtf8("Используется в потоке"));
+    usingInThread.setText(trUtf8("Is used in thread"));
     usingInThread.setChecked(false);
     connect(&usingInThread,SIGNAL(clicked(bool)),this,SLOT(usingInThreadChecked(bool)));
     mainLayout.addWidget(&usingInThread);
@@ -166,12 +166,12 @@ FacilityThreadParams::FacilityThreadParams(int id, QWidget *parent):QWidget(pare
     mainLayout.addWidget(&funcParams);
 
     addStatisticNode.setDisabled(true);
-    addStatisticNode.setText(trUtf8("Собирать статистику для всего узла"));
+    addStatisticNode.setText(trUtf8("Take statistic for whole node"));
     addStatisticNode.setChecked(true);
     mainLayout.addWidget(&addStatisticNode);
 
     addStatisticQueue.setDisabled(true);
-    addStatisticQueue.setText(trUtf8("Собирать статистику для накопителя узла"));
+    addStatisticQueue.setText(trUtf8("Take statistic for storage"));
     addStatisticQueue.setChecked(true);
     mainLayout.addWidget(&addStatisticQueue);
 
@@ -213,12 +213,12 @@ void FacilityThreadParams::usingInThreadChecked(bool checked)
 
 FacilityFunctionWidget::FacilityFunctionWidget(QWidget *parent)
 {
-    funcTypeLbl.setText(trUtf8("Закон обработки: "));
-    funcType.addItem(trUtf8("Экспоненциальный"),QVariant::fromValue((int)EXPONENTIAL));
-    funcType.addItem(trUtf8("Равномерный"),QVariant::fromValue((int)UNIFORM));
-    funcType.addItem(trUtf8("Треугольный"),QVariant::fromValue((int)TRIANGLE));
-    param1Lbl.setText(trUtf8("Лямбда: "));
-    param2Lbl.setText(trUtf8("Смещение: "));
+    funcTypeLbl.setText(trUtf8("Distribution function for processing: "));
+    funcType.addItem(trUtf8("Exponential"),QVariant::fromValue((int)EXPONENTIAL));
+    funcType.addItem(trUtf8("Uniform"),QVariant::fromValue((int)UNIFORM));
+    funcType.addItem(trUtf8("Triangular"),QVariant::fromValue((int)TRIANGLE));
+    param1Lbl.setText(trUtf8("Scale: "));
+    param2Lbl.setText(trUtf8("Locate: "));
 
     mainLayout.addWidget(&funcTypeLbl);
     mainLayout.addWidget(&funcType);
@@ -241,21 +241,21 @@ void FacilityFunctionWidget::functionTypeChanged(int i)
     switch(i)
     {
     case 0:
-        param1Lbl.setText(trUtf8("Лямбда: "));
-        param2Lbl.setText(trUtf8("Смещение: "));
+        param1Lbl.setText(trUtf8("Scale: "));
+        param2Lbl.setText(trUtf8("Locate: "));
         param3Lbl.hide();
         param3.hide();
         break;
     case 1:
-        param1Lbl.setText(trUtf8("Минимум: "));
-        param2Lbl.setText(trUtf8("Максимум: "));
+        param1Lbl.setText(trUtf8("Minimum: "));
+        param2Lbl.setText(trUtf8("Maximum: "));
         param3Lbl.hide();
         param3.hide();
         break;
     case 2:
-        param1Lbl.setText(trUtf8("Минимум: "));
-        param2Lbl.setText(trUtf8("Максимум: "));
-        param3Lbl.setText(trUtf8("Вершина"));
+        param1Lbl.setText(trUtf8("Minimum: "));
+        param2Lbl.setText(trUtf8("Maximum: "));
+        param3Lbl.setText(trUtf8("Mode"));
         param3Lbl.show();
         param3.show();
         break;

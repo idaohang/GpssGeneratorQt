@@ -6,14 +6,14 @@ namespace GeneratorGpss
 StatisticsWindow::StatisticsWindow(NetworkDescriptor *netDesc, QWidget *parent)
 {
     this->netDescriptor=netDesc;
-    statsLabel.setText(trUtf8("Сбор статистики для всей сети:"));
+    statsLabel.setText(trUtf8("General statistics for whole model:"));
     mainLayout.addWidget(&statsLabel);
 
-    netStatistic.setText(trUtf8("Собирать статистику для всей сети"));
+    netStatistic.setText(trUtf8("Take general statistic for whole model"));
     netStatistic.setChecked(true);
     mainLayout.addWidget(&netStatistic);
 
-    threadStatsLbl = new QLabel(trUtf8("Сбор статистики для потоков:"));
+    threadStatsLbl = new QLabel(trUtf8("Statistics for threads:"));
     mainLayout.addWidget(threadStatsLbl);
 
     statsFrameLayout=new QVBoxLayout;
@@ -53,7 +53,7 @@ void StatisticsWindow::updateInterface()
 {
     vector<ThreadDescriptor> *pThreads=netDescriptor->getThreads();
 
-    //убираем удаленные потоки
+    //deleting threads
     map<int, QCheckBox*>::iterator p;
     bool wereChanges=true;
     while(wereChanges)
@@ -82,15 +82,14 @@ void StatisticsWindow::updateInterface()
         }
     }
 
-    //добавляем новые потоки
+    //adding threads
     for(int i=0;i<pThreads->size();i++)
     {
         p=threadStats.find((*pThreads)[i].getId());
         if(p==threadStats.end())
         {
-            QCheckBox *newThreadStat=new QCheckBox(trUtf8("Собирать статистику для потока %1").arg((*pThreads)[i].getId()));
-            newThreadStat->setChecked(true);
-            //statsFrame.layout()->addWidget(newThreadStat);
+            QCheckBox *newThreadStat=new QCheckBox(trUtf8("Take statistic for thread %1").arg((*pThreads)[i].getId()));
+            newThreadStat->setChecked(true);            
             statsFrameLayout->addWidget(newThreadStat);
             threadStats.insert(std::pair<int,QCheckBox*>((*pThreads)[i].getId(),newThreadStat));
         }

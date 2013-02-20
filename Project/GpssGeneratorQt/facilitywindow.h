@@ -26,7 +26,7 @@ namespace GeneratorGpss
         Q_OBJECT
 
     private:
-        //порядок описания полей важен!
+        //order of fields definition may be important!
         int id;
         QLabel facilityName;
         QLabel chanelsLabel;

@@ -112,7 +112,7 @@ Model *MainWindow::interfaceToModel()
         }
     }
 
-    //добавление структуры (матриц переходов)
+    //adding structure of threads
     vector<ThreadMatrix*> *threadMatrixes=transferMatrixWindow.getThreadMatrixes();
     QTableWidget *curMatrix;
     for(int i=0;i<pThreads->size();i++)
@@ -219,7 +219,6 @@ void MainWindow::setThreadTypesInDescriptor()
 Generator *MainWindow::getGenerator(int thread, int node)
 {
     Generator *res;
-    //получение элементов управления, описывающих генератор данного потока
     vector<ThreadWidget*> *threadWidgets=threadsWindow.getThreadWidgets();
     ThreadWidget *curThreadParams;
     for(int  i=0;i<threadWidgets->size();i++)
@@ -275,32 +274,32 @@ void MainWindow::setDescriptionString()
     QString res;
     vector<NodeDescriptor> *pNodes=netDescriptor.getNodes();
     vector<ThreadDescriptor> *pThreads=netDescriptor.getThreads();
-    res.append(trUtf8("Количество потоков: %1\n").arg(pThreads->size()));
-    res.append(trUtf8("Типы потоков:\n"));
+    res.append(trUtf8("Amount of threads: %1\n").arg(pThreads->size()));
+    res.append(trUtf8("Thread types:\n"));
 
     vector<ThreadWidget*> *threads=threadsWindow.getThreadWidgets();
     for(int i=0;i<threads->size();i++)
     {
-        res.append(trUtf8("\tТип потока №%1: %2\n").arg(threads->at(i)->getId()).arg((threads->at(i)->getType()==OPEN)?trUtf8("Разомкнутый"):trUtf8("Замкнутый")));
+        res.append(trUtf8("\tThread type №%1: %2\n").arg(threads->at(i)->getId()).arg((threads->at(i)->getType()==OPEN)?trUtf8("Open"):trUtf8("Closed")));
     }
-    res.append(trUtf8("Количество узлов: %1\n").arg(pNodes->size()));
-    res.append(trUtf8("Типы узлов:\n"));
+    res.append(trUtf8("Amount of nodes: %1\n").arg(pNodes->size()));
+    res.append(trUtf8("Node types:\n"));
     for(int i=0;i<pNodes->size();i++)
     {
-        res.append(trUtf8("\tТип узла b%1: ").arg(pNodes->at(i).getId()));
+        res.append(trUtf8("\tNode type b%1: ").arg(pNodes->at(i).getId()));
         switch(pNodes->at(i).getType())
         {
         case GENERATOR:
-            res.append(trUtf8("Генератор"));
+            res.append(trUtf8("Generator"));
             break;
         case TERMINATOR:
-            res.append(trUtf8("Приемник"));
+            res.append(trUtf8("Terminator"));
             break;
         case FACILITY:
-            res.append(trUtf8("Устройство"));
+            res.append(trUtf8("Facility"));
             break;
         case TRANSFER:
-            res.append(trUtf8("Маршрутный узел"));
+            res.append(trUtf8("Transfer"));
             break;
         }
         res.append(trUtf8("\n"));
@@ -423,7 +422,7 @@ void MainWindow::nextButtonClicked()
     {
         transferMatrixWindow.updateDescriptor();
 
-        //добавляем новые окна для добавленных узлов
+        //adding new windows for new nodes
         for(int i=0;i<pNodes->size();i++)
         {
             if((*pNodes)[i].getType()!=FACILITY)
@@ -445,7 +444,7 @@ void MainWindow::nextButtonClicked()
                 connect(nodes.back()->getPrevButton(),SIGNAL(clicked()),this,SLOT(prevButtonClicked()));
             }
         }
-        //удаляем старые окна для удаленных узлов
+        //deleting old windows for deleted nodes
         bool wereChanges=true;
         while(wereChanges)
         {
