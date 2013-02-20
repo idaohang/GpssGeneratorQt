@@ -26,9 +26,7 @@ SOURCES += main.cpp\
     Generator/Statistics.cpp \
     Generator/SingleGenerator.cpp \
     Generator/Router.cpp \
-    Generator/ParserXML.cpp \
     Generator/ObjectGPSS.cpp \
-    Generator/my_application.cpp \
     Generator/Model.cpp \
     Generator/IntervalStatistics.cpp \
     Generator/Generator.cpp \

@@ -1,5 +1,4 @@
 //ExponentialFunction.h
-//Содержит объявление класса функции экспоненциального распределения ExponentialFunction
 
 #ifndef EXPONENTIAL_FUNCTION_H
 #define EXPONENTIAL_FUNCTION_H
@@ -15,19 +14,16 @@ namespace GeneratorGPSS
 			double locate;
 			double scale;
 		public:
-			//конструктор
 			ExponentialFunction();
 
-			//метод генерирует GPSS-текст для описания функции экспоненциального распределения в потоке thread
-			//output - выходной поток, куда будет записан сгенерированный GPSS-текст
-			//thread - номер потока заявок
+			//output - stream to write GPSS code
 			virtual void GenerateDefinition(std::ofstream &output);
 
-			//метод для задания параметров функции
+			//stream - seek for random
 			void SetParams(int stream, double locate,double scale);
 
 		private:
-			//метод для установки имени функции
+			//name for exponential function must be 'exponential'
 			void SetName(const std::string &name);
 	};
 }
