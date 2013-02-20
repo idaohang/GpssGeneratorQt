@@ -45,6 +45,7 @@ public slots:
 
 class NodeWidget : public QWidget
 {
+    Q_OBJECT
 public:
     NodeWidget(int id, QWidget *parent=0);
     virtual ~NodeWidget();

@@ -51,7 +51,6 @@ HEADERS  += mainwindow.h \
     Generator/Statistics.h \
     Generator/SingleGenerator.h \
     Generator/Router.h \
-    Generator/ParserXML.h \
     Generator/ObjectGPSS.h \
     Generator/Node.h \
     Generator/Terminator.h \
@@ -65,3 +64,7 @@ HEADERS  += mainwindow.h \
     Generator/MultipleGenerator.h
 
 FORMS    +=
+
+
+TRANSLATIONS =  GeneratorGpssQt_en.ts \
+                GeneratorGpssQt_ru.ts
