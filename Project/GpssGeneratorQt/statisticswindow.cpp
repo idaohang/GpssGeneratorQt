@@ -60,17 +60,8 @@ void StatisticsWindow::updateInterface()
     {
         wereChanges=false;
         for(p=threadStats.begin();p!=threadStats.end();p++)
-        {
-            bool exist=false;
-            for(int i=0;i<pThreads->size();i++)
-            {
-                if(p->first==(*pThreads)[i].getId())
-                {
-                    exist=true;
-                    break;
-                }
-            }
-            if(!exist)
+        {            
+            if(netDescriptor->getThreadById(p->first)==0)
             {
                 QCheckBox *threadStat=p->second;
                 statsFrameLayout->removeWidget(threadStat);
@@ -94,7 +85,6 @@ void StatisticsWindow::updateInterface()
             threadStats.insert(std::pair<int,QCheckBox*>((*pThreads)[i].getId(),newThreadStat));
         }
     }
-
 }
 
 }

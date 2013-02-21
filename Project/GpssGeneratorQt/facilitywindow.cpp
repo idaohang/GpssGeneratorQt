@@ -56,11 +56,11 @@ void FacilityWindow::memoryTypeChanged(int i)
 {
     switch(i)
     {
-    case 0:
+    case INFINITE:
         memoryValueLbl.hide();
         memoryValue.hide();
         break;
-    case 1:
+    case LIMITED:
         memoryValueLbl.show();
         memoryValue.setText("");
         memoryValue.show();
@@ -103,17 +103,8 @@ void FacilityWindow::updateInterface()
 
     //adding tabs for new threads
     for(int i=0;i<pThreads->size();i++)
-    {
-        bool found=false;
-        for(int j=0;j<facilityThreadParams.size();j++)
-        {
-            if(facilityThreadParams[j]->getId()==(*pThreads)[i].getId())
-            {
-                found=true;
-                break;
-            }
-        }
-        if(!found)
+    {        
+        if(getParamsById(pThreads->at(i).getId())==0)
         {
             facilityThreadParams.push_back(new FacilityThreadParams((*pThreads)[i].getId()));
             threadTabs.addTab(facilityThreadParams.back(),trUtf8("Thread №%1").arg((*pThreads)[i].getId()));
@@ -125,17 +116,8 @@ void FacilityWindow::updateInterface()
     {
         wereChanges=false;
         for(int i=0;i<facilityThreadParams.size();i++)
-        {
-            bool exist=false;
-            for(int j=0;j<pThreads->size();j++)
-            {
-                if(facilityThreadParams[i]->getId()==(*pThreads)[j].getId())
-                {
-                    exist=true;
-                    break;
-                }
-            }
-            if(!exist)
+        {            
+            if(netDescriptor->getThreadById(facilityThreadParams[i]->getId())==0)
             {
                 threadTabs.removeTab(i);
                 facilityThreadParams.erase(facilityThreadParams.begin()+i);
@@ -144,6 +126,17 @@ void FacilityWindow::updateInterface()
             }
         }
     }
+}
+
+FacilityThreadParams* FacilityWindow::getParamsById(int id)
+{
+    for(int i=0;i<facilityThreadParams.size();i++)
+    {
+        if(facilityThreadParams[i]->getId()==id)
+            return facilityThreadParams[i];
+    }
+
+    return 0;
 }
 
 FacilityWindow::~FacilityWindow()

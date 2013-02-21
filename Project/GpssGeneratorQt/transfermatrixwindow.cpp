@@ -60,16 +60,7 @@ void TransferMatrixWindow::updateInterface()
         wereChanges=false;
         for(int i=0;i<threadMatrixes.size();i++)
         {
-            bool exist=false;
-            for(int j=0;j<pThreads->size();j++)
-            {
-                if(threadMatrixes[i]->getId()==(*pThreads)[j].getId())
-                {
-                    exist=true;
-                    break;
-                }
-            }
-            if(!exist)
+            if(netDescriptor->getThreadById(threadMatrixes[i]->getId())==0)
             {
                 threadTabs.removeTab(i);
                 threadMatrixes.erase(threadMatrixes.begin()+i);

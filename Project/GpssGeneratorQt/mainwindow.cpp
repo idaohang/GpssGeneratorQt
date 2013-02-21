@@ -201,18 +201,11 @@ NodeTypeEnum MainWindow::getNodeTypeById(int id)
 void MainWindow::setThreadTypesInDescriptor()
 {
     vector<ThreadWidget*> *threadWidgets=threadsWindow.getThreadWidgets();
-    vector<ThreadDescriptor> *pThreads=netDescriptor.getThreads();
-
+    ThreadDescriptor* curThread;
     for(int i=0;i<threadWidgets->size();i++)
     {
-        for(int j=0;j<pThreads->size();j++)
-        {
-            if(threadWidgets->at(i)->getId()==pThreads->at(j).getId())
-            {
-                pThreads->at(j).setType(threadWidgets->at(i)->getType());
-                break;
-            }
-        }
+        curThread=netDescriptor.getThreadById(threadWidgets->at(i)->getId());
+        curThread->setType(threadWidgets->at(i)->getType());
     }
 }
 
@@ -220,7 +213,7 @@ Generator *MainWindow::getGenerator(int thread, int node)
 {
     Generator *res;
     vector<ThreadWidget*> *threadWidgets=threadsWindow.getThreadWidgets();
-    ThreadWidget *curThreadParams;
+    ThreadWidget *curThreadParams;   
     for(int  i=0;i<threadWidgets->size();i++)
     {
         if(threadWidgets->at(i)->getId()==thread)

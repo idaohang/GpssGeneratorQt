@@ -194,7 +194,7 @@ void ThreadWidget::typeChanged(int i)
 {
     switch(i)
     {
-    case 0:
+    case OPEN:
         threadFuncLbl.show();
         threadFunc.setCurrentIndex(0);
         threadFunc.show();
@@ -207,7 +207,7 @@ void ThreadWidget::typeChanged(int i)
         param2.show();
         param2.setText("0");
         break;
-    case 1:
+    case CLOSED:
         threadFuncLbl.hide();
         threadFunc.hide();
         param2.hide();
@@ -222,11 +222,9 @@ void ThreadWidget::typeChanged(int i)
 
 void ThreadWidget::funcChanged(int i)
 {
-
     switch(i)
     {
-    //uniform
-    case 1:
+    case UNIFORM:
         param1Lbl.setText(trUtf8("Minimum: "));
         param1.setText("0");
         param2Lbl.setText(trUtf8("Maximum: "));
@@ -236,8 +234,7 @@ void ThreadWidget::funcChanged(int i)
         param3Lbl.hide();
         param3.hide();
         break;
-        //exponential
-    case 0:
+    case EXPONENTIAL:
         param1Lbl.setText(trUtf8("Scale: "));
         param1.setText("0");
         param2Lbl.setText(trUtf8("Locate: "));
@@ -247,8 +244,7 @@ void ThreadWidget::funcChanged(int i)
         param3Lbl.hide();
         param3.hide();
         break;
-        //triangular
-    case 2:
+    case TRIANGLE:
         param1Lbl.setText(trUtf8("Minimum: "));
         param1.setText("");
         param2Lbl.setText(trUtf8("Maximum: "));
@@ -267,12 +263,12 @@ void ThreadWidget::priorityTypeChanged(int i)
 {
     switch(priorityType.currentIndex())
     {
-    case 0:
-    case 2:
+    case NONE:
+    case ABSOLUTE:
         priorityValueLbl.hide();
         priorityValue.hide();
         break;
-    case 1:
+    case RELATIVE:
         priorityValueLbl.show();
         priorityValue.show();
         break;

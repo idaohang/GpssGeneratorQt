@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'generatewindow.h'
 **
-** Created: Wed Feb 20 17:37:00 2013
+** Created: Thu Feb 21 19:16:16 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!

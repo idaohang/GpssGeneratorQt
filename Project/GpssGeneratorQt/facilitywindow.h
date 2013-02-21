@@ -54,6 +54,8 @@ namespace GeneratorGpss
         virtual void updateDescriptor();
         virtual void updateInterface();
         virtual ~FacilityWindow();
+    private:
+        FacilityThreadParams* getParamsById(int id);
 
     public slots:
         void memoryTypeChanged(int i);

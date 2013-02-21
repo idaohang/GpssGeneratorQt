@@ -90,4 +90,26 @@ NetworkDescriptor::NetworkDescriptor():threads(),nodes()
 
 }
 
+ThreadDescriptor* NetworkDescriptor::getThreadById(int id)
+{
+    for(int i=0;i<threads.size();i++)
+    {
+        if(threads[i].getId()==id)
+            return &threads[i];
+    }
+
+    return 0;
+}
+
+NodeDescriptor* NetworkDescriptor::getNodeById(int id)
+{
+    for(int i=0;i<nodes.size();i++)
+    {
+        if(nodes[i].getId()==id)
+            return &nodes[i];
+    }
+
+    return 0;
+}
+
 }

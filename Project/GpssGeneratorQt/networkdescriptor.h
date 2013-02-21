@@ -13,6 +13,7 @@ enum ThreadTypeEnum {OPEN, CLOSED};
 enum NodeTypeEnum {FACILITY, TRANSFER, STATISTIC, GENERATOR, TERMINATOR};
 enum PriorityTypeEnum {NONE, RELATIVE, ABSOLUTE};
 enum FunctionTypeEnum {EXPONENTIAL, UNIFORM, TRIANGLE};
+enum StorageTypeEnum {INFINITE, LIMITED};
 
 class ThreadDescriptor
 {
@@ -61,6 +62,8 @@ public:
     NetworkDescriptor();
     vector<ThreadDescriptor> *getThreads();
     vector<NodeDescriptor> *getNodes();
+    ThreadDescriptor* getThreadById(int i);
+    NodeDescriptor* getNodeById(int i);
 };
 
 
